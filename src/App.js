@@ -16,6 +16,7 @@ const reducer = (state, action) => {
         }
         case 'CREATE': {
             newState = [action.data, ...state];
+            console.log('Create Diary : ', newState);
             break;
         }
         case 'REMOVE': {
@@ -29,6 +30,7 @@ const reducer = (state, action) => {
         default:
             return state;
     }
+    return newState;
 };
 
 export const DiaryStateContext = React.createContext();
@@ -37,31 +39,31 @@ export const DiaryDispatchContext = React.createContext();
 const dummyData = [
     {
         id: 1,
-        emothon: 1,
+        emotion: 1,
         content: "오늘의일기 1번",
         date : 1643963840536
     },
     {
         id: 2,
-        emothon: 2,
+        emotion: 2,
         content: "오늘의일기 2번",
         date : 1643963840537
     },
     {
         id: 3,
-        emothon: 3,
+        emotion: 3,
         content: "오늘의일기 3번",
         date : 1643963840538
     },
     {
         id: 4,
-        emothon: 4,
+        emotion: 4,
         content: "오늘의일기 4번",
         date : 1643963840539
     },
     {
         id: 5,
-        emothon: 5,
+        emotion: 5,
         content: "오늘의일기 5번",
         date : 1643963840548
     },
@@ -71,7 +73,7 @@ function App() {
 
     const [data, dispatch] = useReducer(reducer, dummyData);
 
-    const dataId = useRef(0);
+    const dataId = useRef(6);
 
     // CREATE
     const onCreate = (date, content, emotion) => {
@@ -98,7 +100,7 @@ function App() {
     // EDIT
     const onEdit = (targetId, date, content, emotion) => {
         dispatch({
-            type: "Edit",
+            type: "EDIT",
             data: {
                 id: targetId,
                 date: new Date(date).getTime(),
@@ -122,7 +124,7 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Home />}></Route>
                         <Route path="/new" element={<New />}></Route>
-                        <Route path="/edit" element={<Edit />}></Route>
+                        <Route path="/edit/:id" element={<Edit />}></Route>
                         <Route path="/diary/:id" element={<Diary />}></Route>
                     </Routes>
                 </div>
